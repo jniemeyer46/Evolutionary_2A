@@ -46,11 +46,25 @@ def main():
 
 # The core of the program
 def evaluations(name, container, result_log):
+	# Memory used for the tree
+	memory = []
+	# Log list is used to write to the result log after the run
 	log_list = []
+	# Best solution found during this particular run
 	solution = []
+	# Best fitness found which corresponds to the best solution found
 	solution_fitness = []
 
+	# Places the name at the top of the list for the log file
 	log_list.append(name)
+
+	# Create the memory list for the current run
+	for num in range(0, container.k):
+		x = random.randrange(0, 2, 1)
+		y = random.randrange(0, 2, 1)
+
+		memory.append((x, y))
+
 	for evals in range(1, container.fitness + 1):
 		log_list.append((evals, 'fitness'))
 
@@ -62,7 +76,7 @@ def evaluations(name, container, result_log):
 			result_log.write(str(evalValue) + "	" + str(fitnessValue) + "\n")
 	
 	result_log.write("\n")
-	
+
 
 if __name__ == "__main__":
 	main()

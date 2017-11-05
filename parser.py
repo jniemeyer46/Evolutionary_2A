@@ -12,6 +12,12 @@ def setup(container, config):
 			container.runs = int(info[2])
 		elif info[0] == "fitness":
 			container.fitness = int(info[2])
+		elif info[0] == "k":
+			container.k = int(info[2])
+		elif info[0] == "d":
+			container.d = int(info[2])
+		elif info[0] == "l":
+			container.l = int(info[2])
 		elif info[0] == "prob_log_file":
 			container.prob_log_file = info[2]
 		elif info[0] == "prob_solution_file":
