@@ -3,7 +3,7 @@ fitness = 10000
 
 k = 20
 d = 5
-l = 10
+l = 5
 
 prob_log_file = logs/log1.txt
 prob_solution_file = solutions/solution1.txt

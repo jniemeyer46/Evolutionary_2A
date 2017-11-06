@@ -6,6 +6,7 @@ import threading
 
 # Personal Files
 from Container import Container
+from Tree import Tree
 import operations
 import parser
 
@@ -19,7 +20,6 @@ def main():
 
 	parser.setup(container, config)
 
-	# Seeds the random function using a saved value that is put into the log file
 	random.seed(container.seed)
 
 	# opening the log file 
@@ -55,6 +55,9 @@ def evaluations(name, container, result_log):
 	# Best fitness found which corresponds to the best solution found
 	solution_fitness = []
 
+	# Holds the highest fitness this particular run
+	highest_fitness = 0
+
 	# Places the name at the top of the list for the log file
 	log_list.append(name)
 
@@ -63,11 +66,59 @@ def evaluations(name, container, result_log):
 		x = random.randrange(0, 2, 1)
 		y = random.randrange(0, 2, 1)
 
+		# Create the memory for a given run
 		memory.append((x, y))
 
+	# Fitness Evaluations begin
 	for evals in range(1, container.fitness + 1):
-		log_list.append((evals, 'fitness'))
+		# Holds the values used to calculate the fitness at the end of an eval
+		PfitnessValues = []
+		OfitnessValues = []
+		# Holds the evals fitness value
+		PfitnessValue = 0
+		OfitnessValue = 0
+		tempP = 0
+		tempO = 0
 
+		# This is where the game is actually played
+		for play in range(container.l):
+			# Creates the tree and a list of the elements in the tree in order that they were created
+			tree, tree_list = operations.createTree(container.d, container.k)
+
+			# Reorders the list so that they are in the preordered form
+			tree_list = operations.reorder(container.d, tree_list)
+
+			newDecision = operations.evaluate(memory, container.k, tree_list, container.decision)
+
+			fitnessP, fitnessO = operations.yearsInJail(newDecision, container.decision)
+
+			# Set the new tit-for-tat decision
+			container.decision = newDecision
+
+			PfitnessValues.append(fitnessP)
+			OfitnessValues.append(fitnessO)
+
+			if fitnessP > container.solution_fitness:
+				container.solution_fitness = fitnessP
+				solution_log = open(container.prob_solution_file, 'w')
+
+				for i in tree_list:
+					solution_log.write(i + " ")
+
+		for value in PfitnessValues:
+			tempP += value
+
+		for value in OfitnessValues:
+			tempO += value
+
+		PfitnessValue = tempP / len(PfitnessValues)
+		OfitnessValue = tempO / len(OfitnessValues)
+
+		if PfitnessValue > highest_fitness:
+			highest_fitness = PfitnessValue
+			log_list.append((evals, PfitnessValue))		
+
+	# Inputting the results into the result log
 	for i in range(len(log_list)):
 		if log_list[i][0] == 'R':
 			result_log.write(log_list[i] + "\n")

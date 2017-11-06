@@ -7,7 +7,6 @@ def setup(container, config):
 		# split the rules into words
 		info = rules.split(" ")
 
-
 		if info[0] == "runs":
 			container.runs = int(info[2])
 		elif info[0] == "fitness":

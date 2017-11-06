@@ -16,6 +16,9 @@ class Container:
 	# Holds the best fitness found for a given execution
 	solution_fitness = 0
 
+	# Holds the previous decision, starts with defect
+	decision = 'defect'
+
 	# Result Log File
 	prob_log_file = 0
 	# Solution File
