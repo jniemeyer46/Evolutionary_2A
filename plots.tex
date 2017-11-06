@@ -7,48 +7,18 @@
 \begin{document}
 \maketitle
 
-\section*{Problem 1: fitness vs Eval graph}
+\section{Evaluations vs. Fitness graph}
 \begin{tikzpicture}
 \begin{axis}[
-	title = {Evaluation vs Fitness Problem 1},
+	title = {Evaluation vs Fitness},
     xlabel={Evaluations},
     ylabel={Fitness},
-    xmin=0, xmax=40,
-    ymin=0,ymax=400,
-    xtick={0,10,20,30,40},
-    ytick={0,100,200,300,400},
+    xmin=0, xmax=80,
+    ymin=2,ymax=3.5,
+    xtick={0, 20, 40, 60, 80},
+    ytick={2, 2.5, 3, 3.5},
     ]
-\addplot[const plot, no marks, thick] coordinates {(3,2) (6,3) (18,6) (22,283) (31,330) (40,330)} node[above,pos=.90,black] {$f(x)$};
-\end{axis}
-\end{tikzpicture}
-
-\section*{Problem 2: fitness vs Eval graph}
-\begin{tikzpicture}
-\begin{axis}[
-	title = {Evaluation vs Fitness Problem 2},
-    xlabel={Fitness},
-    ylabel={Evaluation},
-    xmin=0, xmax=50,
-    ymin=0,ymax=160,
-    xtick={0,12.5,25,37.5,50},
-    ytick={0,37.5,75,112.5, 150},
-    ]
-\addplot[const plot, no marks, thick] coordinates {(5,2) (10,3) (16,15) (18,113) (44,147) (50,147)} node[above,pos=.75,black] {$F_x$};
-\end{axis}
-\end{tikzpicture}
-
-\section*{Problem 3: fitness vs Eval graph}
-\begin{tikzpicture}
-\begin{axis}[
-	title = {Evaluation vs Fitness Problem 3},
-    xlabel={Fitness},
-    ylabel={Evaluation},
-    xmin=0, xmax=70,
-    ymin=0,ymax=1000,
-    xtick={0,17.5,35,52.5,70},
-    ytick={0,250,500,750,1000},
-    ]
-\addplot[const plot, no marks, thick] coordinates {(10,2) (25,6) (40,32) (50,186) (62,910) (70,910)} node[above,pos=.57,black] {$F_x$};
+\addplot[const plot, no marks, thick] coordinates {(1, 2.2) (3, 2.4) (7, 2.6) (17, 2.8) (31, 3.0) (33, 3.2) (72, 3.4) (80, 3.4)} node[above,pos=.50,black] {$f(x)$};
 \end{axis}
 \end{tikzpicture}
 \end{document}
