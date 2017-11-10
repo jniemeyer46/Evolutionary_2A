@@ -3,6 +3,7 @@ import time
 import string
 import random
 import threading
+from operator import itemgetter
 
 # Personal Files
 from Container import Container
@@ -30,13 +31,45 @@ def main():
 	result_log.write("Parameters used = {'fitness evaluations': %s, 'number of runs': %s, 'problem solution location': '%s'}\n\n"
 					% (container.fitness, container.runs, container.prob_solution_file))
 
+	threads = []
 	for run in range(1, container.runs + 1):
 		# Used in the result log
-		thread_name = "Run %s" % run
+		thread_name = run
 
 		# Spins up the number of runs wanted to be executed for the program
-		t = threading.Thread(target = evaluations(thread_name, container, result_log))
-		t.start()
+		t = threading.Thread(name=thread_name, target=evaluations, args=(thread_name, container))
+
+		threads.append(t)
+
+
+	# Start all threads
+	for x in threads:
+		x.start()
+
+ 	# Wait for all of them to finish
+	for x in threads:
+		threads.remove(x)
+		x.join()
+
+	print(container.results)
+
+	for i in container.results:
+		print(i)
+
+	container.results.sort(key=itemgetter(0))
+
+	print(container.results)
+
+	# Inputting the results into the result log
+	for list in container.results:
+		for i in range(len(list)):
+			if i == 0:
+				result_log.write("Run " + str(list[i]) + "\n")
+			else:
+				evalValue, fitnessValue = list[i]
+				result_log.write(str(evalValue) + "	" + str(fitnessValue) + "\n")
+
+		result_log.write("\n")
 
 	result_log.close()
 
@@ -45,7 +78,9 @@ def main():
 
 
 # The core of the program
-def evaluations(name, container, result_log):
+def evaluations(name, container):
+	print(str(name) + ' Starting')
+
 	# Memory used for the tree
 	memory = []
 	# Log list is used to write to the result log after the run
@@ -103,7 +138,7 @@ def evaluations(name, container, result_log):
 				solution_log = open(container.prob_solution_file, 'w')
 
 				for i in tree_list:
-					solution_log.write(i + " ")
+					solution_log.write(str(i) + " ")
 
 		for value in PfitnessValues:
 			tempP += value
@@ -116,17 +151,15 @@ def evaluations(name, container, result_log):
 
 		if PfitnessValue > highest_fitness:
 			highest_fitness = PfitnessValue
-			log_list.append((evals, PfitnessValue))		
+			log_list.append((evals, PfitnessValue))
 
-	# Inputting the results into the result log
-	for i in range(len(log_list)):
-		if log_list[i][0] == 'R':
-			result_log.write(log_list[i] + "\n")
-		else:
-			evalValue, fitnessValue = log_list[i]
-			result_log.write(str(evalValue) + "	" + str(fitnessValue) + "\n")
-	
-	result_log.write("\n")
+
+		if evals % 1000 == False:
+			print("\n" + str(name) + "\n" + str(evals) + "	" + str(PfitnessValue))
+
+	container.results.append(log_list)
+
+	print(str(name) + ' Exiting')
 
 
 if __name__ == "__main__":

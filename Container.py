@@ -8,16 +8,19 @@ class Container:
 	fitness = 0
 
 	# Length of Agent Memory
-	k = 0
+	k = 5
 	# Tree Depth
-	d = 0
+	d = 4
 	# Number of iterations to be played in a given evaluation
-	l = 0
+	l = 5
 	# Holds the best fitness found for a given execution
 	solution_fitness = 0
 
 	# Holds the previous decision, starts with defect
 	decision = 'defect'
+
+	# Holds all log_lists which will be used to write to the result file
+	results = []
 
 	# Result Log File
 	prob_log_file = 0

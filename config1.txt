@@ -1,5 +1,5 @@
 runs = 30
-fitness = 10000
+fitness = 1000
 
 k = 20
 d = 5
